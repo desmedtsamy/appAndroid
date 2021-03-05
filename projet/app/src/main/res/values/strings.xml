@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">projet</string>
+    <string name="Email">Email</string>
+    <string name="connexion">CONNEXION</string>
+    <string name="singIn_title">SIGN IN</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dev_name">Samy De Smedt</string>
+    <string name="information">Samy De Smedt, 52854</string>
+    <string name="about_title">about</string>
+</resources>
