@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/fragment_connexion2">
+    app:startDestination="@id/fragment_connexion">
     <fragment
-        android:id="@+id/fragment_connexion2"
+        android:id="@+id/fragment_connexion"
         android:name="esi.g52854.projet.fragment_connexion"
         android:label="fragment_connexion"
         tools:layout="@layout/fragment_connexion" />
     <fragment
-        android:id="@+id/aboutFragment2"
+        android:id="@+id/aboutFragment"
         android:name="esi.g52854.projet.aboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
