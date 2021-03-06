@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="69dp"
-        android:style="@style/text"
+        style="@style/text"
         android:text="@string/dev_name"
         android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,9 +50,11 @@
         style="@style/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/about_title"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout >
