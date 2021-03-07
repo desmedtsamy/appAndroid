@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".aboutFragment">
+    tools:context=".AboutFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -39,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
+        android:contentDescription="@string/rowan_atkinson"
         android:src="@drawable/rowan_atkinson"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

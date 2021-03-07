@@ -11,13 +11,13 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import esi.g52854.projet.databinding.FragmentConnexionBinding
 
-class fragment_connexion : Fragment() {
+class FragmentConnexion : Fragment() {
 
     private lateinit var binding:  FragmentConnexionBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-         binding = DataBindingUtil.inflate<FragmentConnexionBinding>(inflater,
+         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_connexion ,container,false)
         binding.connexionButton.setOnClickListener{
             checkEmail()
@@ -26,9 +26,9 @@ class fragment_connexion : Fragment() {
     }
     private fun checkEmail() {
         val editText = binding.emailEdit.text.toString()
-        val test = Patterns.EMAIL_ADDRESS.matcher(editText).matches();
-        val message = if(test)  "email valide" else "erreur : email invalide"
-        Toast.makeText(getActivity(),message , Toast.LENGTH_SHORT).show();
+        val test = Patterns.EMAIL_ADDRESS.matcher(editText).matches()
+        val message = if(test)  getString(R.string.valid_email) else getString(R.string.unvalid_email)
+        Toast.makeText(activity,message , Toast.LENGTH_SHORT).show()
 
     }
 

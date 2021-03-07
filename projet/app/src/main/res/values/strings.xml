@@ -3,9 +3,13 @@
     <string name="Email">Email</string>
     <string name="connexion">CONNEXION</string>
     <string name="singIn_title">SIGN IN</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dev_name">Samy De Smedt</string>
     <string name="information">Samy De Smedt, 52854</string>
     <string name="about_title">about</string>
+    <string name="valid_email">email valide ✅</string>
+    <string name="unvalid_email">erreur email invalide ❌</string>
+    <string name="rowan_atkinson">Rowan Atkinson</string>
+    <string name="baby_yoda">baby_yoda</string>
 </resources>

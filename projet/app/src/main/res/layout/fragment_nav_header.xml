@@ -9,12 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".fragment_connexion">
+        tools:context=".FragmentConnexion">
 
         <ImageView
             android:id="@+id/babyYoda_image"
             android:layout_width="159dp"
             android:layout_height="125dp"
+            android:contentDescription="@string/baby_yoda"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
