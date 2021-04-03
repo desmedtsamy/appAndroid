@@ -6,12 +6,12 @@
     app:startDestination="@id/fragment_connexion">
     <fragment
         android:id="@+id/fragment_connexion"
-        android:name="esi.g52854.projet.FragmentConnexion"
-        android:label="fragment_connexion"
+        android:name="esi.g52854.projet.connexion.ConnexionFragment"
+        android:label="@string/connexion"
         tools:layout="@layout/fragment_connexion" />
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="esi.g52854.projet.AboutFragment"
-        android:label="fragment_about"
+        android:name="esi.g52854.projet.about.AboutFragment"
+        android:label="@string/about_title"
         tools:layout="@layout/fragment_about" />
 </navigation>
