@@ -36,7 +36,7 @@ class ConnexionViewModel (): ViewModel() {
     }
 
 
-    fun ItemViewModel( itemDataSource: UserRepository, executor: Executor) {
+    fun itemViewModel( itemDataSource: UserRepository, executor: Executor) {
         this.userDataSource = itemDataSource
         this.executor = executor
     }

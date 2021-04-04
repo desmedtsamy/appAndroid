@@ -53,14 +53,15 @@ class ConnexionFragment : Fragment() {
     }
 
     private fun setAdapter() {
+        if(viewModel.list.value?.isEmpty()!!) {
             adapter = ArrayAdapter<String?>(requireActivity(),
                     android.R.layout.simple_list_item_1, viewModel.list.value!!)
             _UserViewModel.readAllData.observe(viewLifecycleOwner, Observer { user ->
                 user.forEach {
-                    viewModel.test(it.email,it.userId)
+                    viewModel.test(it.email, it.userId)
                 }
             })
-
+        }
         binding.autoCompleteTextView.setAdapter(adapter)
     }
 

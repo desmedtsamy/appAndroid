@@ -34,7 +34,6 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             user = repository.getUserByEmail(email)!!
 
-            Log.i("dbtest", "-----"+user!!.last_Connection)
         }
 
     }
