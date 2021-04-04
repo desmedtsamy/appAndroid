@@ -1,4 +1,4 @@
-package esi.g52854.projet.about
+package esi.g52854.projet.fragment.about
 
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import esi.g52854.projet.R
-import esi.g52854.projet.connexion.ConnexionViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +23,6 @@ class AboutFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.i("About", "Called ViewModelProvider.get")
         viewModel = ViewModelProvider(this).get(AboutViewModel::class.java)
     }
 

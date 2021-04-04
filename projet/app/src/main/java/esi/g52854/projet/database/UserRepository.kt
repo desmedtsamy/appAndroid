@@ -11,7 +11,6 @@ class UserRepository (private val userDao: UserDao){
     }
     suspend fun updateUser(user: User){
 
-        Log.i("dbtest", "email updated connexion time :"+ user.last_Connection+" id : "+user.userId)
         userDao.update(user)
     }
     suspend fun getUserByEmail(email:String):User?{

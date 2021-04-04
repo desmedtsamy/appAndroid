@@ -1,5 +1,5 @@
 
-package esi.g52854.projet.connexion
+package esi.g52854.projet.fragment.connexion
 
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import esi.g52854.projet.R
 import esi.g52854.projet.database.User
@@ -25,14 +26,17 @@ class ConnexionFragment : Fragment() {
     private lateinit var viewModel: ConnexionViewModel
     private lateinit var _UserViewModel : UserViewModel
 
-    var list: MutableList<String?> =  mutableListOf()
-    var listOfId: MutableList<Long?> =  mutableListOf()
     lateinit var adapter:ArrayAdapter<String?>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         binding = DataBindingUtil.inflate(inflater,
                  R.layout.fragment_connexion,container,false)
+
         _UserViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ConnexionViewModel::class.java)
+
         binding.connexionButton.setOnClickListener{
             checkEmail()
         }
@@ -40,32 +44,35 @@ class ConnexionFragment : Fragment() {
             binding.autoCompleteTextView.showDropDown()
         }
         setAdapter()
-        viewModel = ViewModelProvider(this).get(ConnexionViewModel::class.java)
+
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.listFragment)
+        }
+
         return binding.root
     }
 
     private fun setAdapter() {
+            adapter = ArrayAdapter<String?>(requireActivity(),
+                    android.R.layout.simple_list_item_1, viewModel.list.value!!)
+            _UserViewModel.readAllData.observe(viewLifecycleOwner, Observer { user ->
+                user.forEach {
+                    viewModel.test(it.email,it.userId)
+                }
+            })
 
-        adapter = ArrayAdapter<String?>(activity!!,
-                android.R.layout.simple_list_item_1,list)
         binding.autoCompleteTextView.setAdapter(adapter)
-        _UserViewModel.readAllData.observe(viewLifecycleOwner, Observer { user ->
-            user.forEach{
-                list.add(it.email.toString())
-                listOfId.add(it.userId)
-            }
-        })
     }
 
     private fun insertEmailToDatabase(email : String) {
         val user = User(0,System.currentTimeMillis(),email)
-        if(!list.contains(email)){
+        if(!viewModel.contains(email)){
 
             _UserViewModel.addUser(user)
 
             Toast.makeText(activity,getString(R.string.added_email) , Toast.LENGTH_SHORT).show()
         }else{
-            user.userId = listOfId.get(list.indexOf(email))!!
+            user.userId = viewModel.listOfId.value?.get(viewModel.list.value?.indexOf(email)!!)!!
             _UserViewModel.updateUser(user)
 
             Toast.makeText(activity,getString(R.string.updatedEmail) , Toast.LENGTH_SHORT).show()
