@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/fragment_connexion">
+    app:startDestination="@id/listFragment">
     <fragment
         android:id="@+id/fragment_connexion"
         android:name="esi.g52854.projet.fragment.connexion.ConnexionFragment"
-        android:label="@string/connexion"
+        android:label="créer une recette"
         tools:layout="@layout/fragment_connexion" />
     <fragment
         android:id="@+id/aboutFragment"
@@ -17,5 +17,10 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="esi.g52854.projet.fragment.list.ListFragment"
-        android:label="liste des utilisateurs" />
+        android:label="liste des recette"
+        tools:layout="@layout/fragment_list" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="esi.g52854.projet.DetailFragment"
+        android:label="recette" />
 </navigation>

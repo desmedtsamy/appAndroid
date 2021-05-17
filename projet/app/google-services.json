@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "350072110846",
+    "project_id": "mobrecette",
+    "storage_bucket": "mobrecette.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350072110846:android:846af4bdd4bfbd46346faf",
+        "android_client_info": {
+          "package_name": "esi.g52854.projet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350072110846-im5m6rsn51r00uq4vv480vl9b76jr5ui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUVf-iBEBYHCGZHdu0opxA-RVf-M7B0EA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350072110846-im5m6rsn51r00uq4vv480vl9b76jr5ui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

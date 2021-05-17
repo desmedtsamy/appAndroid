@@ -1,4 +1,4 @@
-package esi.g52854.projet.database
+package esi.g52854.projet.database.recipe
 
 import android.content.Context
 import androidx.room.Database
@@ -6,24 +6,24 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
-abstract class UserDatabase : RoomDatabase() {
+@Database(entities = [Perso::class], version = 1, exportSchema = false)
+abstract class RecipeDatabase : RoomDatabase() {
 
-    abstract val userDao: UserDao
+    abstract val recipeDao: RecipeDao
     companion object {
 
         @Volatile
-        private var INSTANCE: UserDatabase? = null
+        private var INSTANCE: RecipeDatabase? = null
 
-        fun getInstance(context: Context): UserDatabase {
+        fun getInstance(context: Context): RecipeDatabase {
             synchronized(this) {
                 var instance = INSTANCE
 
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        UserDatabase::class.java,
-                        "User_database"
+                        RecipeDatabase::class.java,
+                        "Recipe_database"
                     )
                         .fallbackToDestructiveMigration()
                         .build()

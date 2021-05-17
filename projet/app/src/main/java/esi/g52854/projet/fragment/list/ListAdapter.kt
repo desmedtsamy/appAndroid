@@ -3,36 +3,52 @@ package esi.g52854.projet.fragment.list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import esi.g52854.projet.Communicator
 import esi.g52854.projet.R
-import esi.g52854.projet.database.User
+import esi.g52854.projet.Recette
 import kotlinx.android.synthetic.main.custom_row.view.*
-import java.text.SimpleDateFormat
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
-
-    private var userList = emptyList<User>()
-
+    private lateinit var model: Communicator
+    private var recipeList = emptyList<Recette>()
+    private lateinit var navController : NavController
+    private lateinit var days: Array<String>
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+
         return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_row, parent, false))
     }
 
     override fun getItemCount(): Int {
-       return userList.size
-    }
 
+       return recipeList.size
+    }
+    fun setNavController(navController : NavController){
+        this.navController = navController
+    }
+    fun setModel(model : Communicator){
+        this.model = model
+    }
+    fun setDays(days: Array<String>){
+        this.days = days
+    }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = userList[position]
-        holder.itemView.id_txt.text = currentItem.userId.toString()
-        holder.itemView.email_txt.text = currentItem.email
-        holder.itemView.lastConnection_txt.text = SimpleDateFormat("dd-MMM-yyyy HH:mm")
-                .format(currentItem.last_Connection).toString()
+        val currentItem = recipeList[position]
+        holder.itemView.email_txt.text = currentItem.titre
+        holder.itemView.difficulty.text = currentItem.difficulty
+        holder.itemView.tag = currentItem.id
+        holder.itemView.id_txt.text = days.get(position%days.size)
+        holder.itemView.setOnClickListener{
+            model!!.setMsgCommunicator(currentItem.id)
+            this.navController.navigate(R.id.detailFragment)
+        }
     }
 
-    fun setData(user: List<User>){
-        this.userList = user
+    fun setData(recipe: List<Recette>){
+        this.recipeList = recipe
         notifyDataSetChanged()
     }
 }

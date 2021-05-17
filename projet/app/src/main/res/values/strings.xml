@@ -14,4 +14,27 @@
     <string name="updatedEmail">email mis a jours ✅</string>
     <string name="rowan_atkinson">Rowan Atkinson</string>
     <string name="baby_yoda">baby_yoda</string>
+
+    <string-array name="difficulty_array">
+        <item>facile</item>
+        <item>moyen</item>
+        <item>difficile</item>
+    </string-array>
+    <string-array name="type_array">
+        <item>unité</item>
+        <item>kg</item>
+        <item>g</item>
+        <item>litre</item>
+        <item>cl</item>
+        <item>ml</item>
+    </string-array>
+    <string-array name="day_array">
+        <item>lundi</item>
+        <item>mardi</item>
+        <item>mercredi</item>
+        <item>jeudi</item>
+        <item>vendredi</item>
+        <item>samedi</item>
+        <item>dimanche</item>
+    </string-array>
 </resources>
