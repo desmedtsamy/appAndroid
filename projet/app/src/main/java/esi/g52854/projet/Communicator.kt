@@ -7,7 +7,7 @@ class Communicator : ViewModel(){
 
     val message = MutableLiveData<Any>()
 
-    fun setMsgCommunicator(msg:String){
+    fun setMsgCommunicator(msg:Recette){
         message.setValue(msg)
     }
 }

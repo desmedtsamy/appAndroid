@@ -180,7 +180,7 @@ class ConnexionFragment : Fragment() {
                    Log.w(TAG, "Error adding document", e)
                }
 
-       }
+            }
 
         return binding.root
     }

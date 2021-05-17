@@ -13,10 +13,12 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import esi.g52854.projet.database.recipe.RecipeViewModel
 import esi.g52854.projet.databinding.FragmentDetailBindingImpl
 import esi.g52854.projet.databinding.FragmentListBinding
 import kotlinx.android.synthetic.main.fragment_detail.view.*
@@ -37,22 +39,21 @@ class DetailFragment : Fragment() {
         model.message.observe(this.viewLifecycleOwner, object : Observer<Any> {
             override fun onChanged(o: Any?) {
 
-                getData(o!!.toString())
+                getData(o!! as Recette)
             }})
+
+
+
         return binding.root
 
     }
-    fun getData(id:String){
-        val db = Firebase.firestore
-        val docRef = db.collection("recette").document(id)
+    fun getData(recette:Recette){
         var nb = 0
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    binding.root.titre.text = document.data?.get("titre") as String
-                    binding.root.nbperso.text = document.data?.get("people") as String +" personnes"
-                    binding.root.difficulty.text = document.data?.get("difficulty") as String
-                    var stepsList =document.data?.get("steps") as List<String>
+
+                    binding.root.titre.text = recette.titre
+                    binding.root.nbperso.text = recette.people+" personnes"
+                    binding.root.difficulty.text = recette.difficulty
+                    var stepsList =recette.steps
                     stepsList.forEach{
                         nb++
                         val etape = TextView(thiscontext)
@@ -65,13 +66,7 @@ class DetailFragment : Fragment() {
                         binding.root.steps.addView(etape)
                     }
 
-                } else {
-                    Log.d("prout", "No such document")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("prout", "get failed with ", exception)
-            }
+
     }
 
 

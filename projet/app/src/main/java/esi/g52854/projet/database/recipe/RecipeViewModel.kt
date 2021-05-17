@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class RecipeViewModel(application: Application): AndroidViewModel(application) {
 
-    val readAllData: LiveData<List<Perso>>
+    val readAllData: LiveData<List<Recipe>>
     private val repository: RecipeRepository
 
     init {
@@ -18,18 +18,18 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repository.readAllData
     }
 
-    fun addRecipe(perso: Perso){
+    fun addRecipe(recipe: Recipe){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addRecipe(perso)
+            repository.addRecipe(recipe)
         }
     }
-    fun updateRecipe(perso: Perso){
+    fun updateRecipe(recipe: Recipe){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateRecipe(perso)
+            repository.updateRecipe(recipe)
         }
     }
     fun getRecipeBytitle(email:String){
-        var recipe = Perso(0,"",0,0,0,"","","")
+        var recipe = Recipe(0,"",0,0,0,"","","")
         viewModelScope.launch(Dispatchers.IO) {
             recipe = repository.getRecipeBytitle(email)!!
 

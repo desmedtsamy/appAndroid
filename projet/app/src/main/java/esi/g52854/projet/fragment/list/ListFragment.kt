@@ -11,11 +11,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import esi.g52854.projet.Communicator
@@ -29,19 +32,18 @@ const val KEY_RECETTES = "recettes_key"
 
 class ListFragment: Fragment() {
 
-    private lateinit var mRecipeViewModel: RecipeViewModel
     private lateinit var binding: FragmentListBinding
-    private lateinit var recettesArray :MutableList<Recette>
+    private lateinit var db : FirebaseFirestore
+    private lateinit var adapter : ListAdapter
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-Log.i("prout","onCreateView")
-recettesArray = mutableListOf()
+            ): View? {
 
 
-        val db = Firebase.firestore
-        val recettes = db.collection("recette")
+         db = Firebase.firestore
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_list, container, false
@@ -49,25 +51,66 @@ recettesArray = mutableListOf()
 
         val model= ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
 
-        val adapter = ListAdapter()
+         adapter = ListAdapter()
         adapter.setModel(model)
         adapter.setNavController(findNavController())
         adapter.setDays(resources.getStringArray(R.array.day_array))
         val recyclerView = binding.recyclerview
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recettes.get()
+
+        initRecettesArray()
+
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.fragment_connexion)
+        }
+        this.binding.swiperefresh.setOnRefreshListener {
+             db.collection("week")
+                .get()
+                .addOnSuccessListener { documents ->
+
+                    Log.i("db", documents.size().toString())
+                    for (document in documents) {
+                       document.reference.delete()
+                    }
+                    initRecettesArray()
+                }
+              this.binding.swiperefresh.isRefreshing = false
+
+        }
+        return binding.root
+    }
+    fun updateView(recettesArray : MutableList<Recette>){
+        adapter.setData(recettesArray)
+
+    }
+    fun addDB(recettesArray : MutableList<Recette>){
+        Log.i("db","ajout dans la db "+recettesArray.size)
+        recettesArray.take(7).forEach {
+            db.collection("week")
+                .add(it)
+
+        }
+    }
+fun initRecettesArray(){
+    var recettesArray = mutableListOf<Recette>()
+    db.collection("week").get().addOnSuccessListener { result ->
+        Log.i("db", result.size().toString())
+        if (result.isEmpty) {
+            Log.i("db","recette")
+
+            db.collection("recette").get()
                 .addOnSuccessListener { result ->
-                    for (document in result) {
+                    for (document in result.take(7)) {
                         val titre = document.data["titre"] as String
-                        val time = Integer.parseInt(document.data["prepaduration"] as String)
-                        val timeTotal = Integer.parseInt(document.data["time"] as String)
-                        val nbPerson = Integer.parseInt(document.data["people"] as String)
+                        val time = document.data["prepaduration"] as String
+                        val timeTotal = document.data["time"] as String
+                        val nbPerson = document.data["people"] as String
                         val difficulty = document.data["difficulty"] as String
 
-                        val steps = document.data["steps"] as  List<String>
-                        val ingredients = document.data["ingredients"] as  List<String>
-
+                        val steps = document.data["steps"] as List<String>
+                        val ingredients = document.data["ingredients"] as List<String>
+Log.i("db",titre)
                         recettesArray.add(
                             Recette(
                                 document.id,
@@ -82,51 +125,49 @@ recettesArray = mutableListOf()
                         )
                     }
                     recettesArray.shuffle()
-                    adapter.setData(recettesArray)
+                    addDB(recettesArray)
+                    updateView(recettesArray)
                 }
                 .addOnFailureListener { exception ->
                     Log.d(TAG, "Error getting documents: ", exception)
                 }
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.fragment_connexion)
+
+
+        } else {
+            db.collection("week").get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        val titre = document.data["titre"] as String
+                        val time = document.data["prepaduration"] as String
+                        val timeTotal = document.data["time"] as String
+                        val nbPerson = document.data["people"] as String
+                        val difficulty = document.data["difficulty"] as String
+
+                        val steps = document.data["steps"] as List<String>
+                        val ingredients = document.data["ingredients"] as List<String>
+                        Log.i("db",titre)
+
+                        recettesArray.add(
+                            Recette(
+                                document.id,
+                                titre,
+                                difficulty,
+                                nbPerson,
+                                time,
+                                timeTotal,
+                                steps,
+                                ingredients
+                            )
+                        )
+                    }
+
+                    updateView(recettesArray)
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
         }
-        this.binding.swiperefresh.setOnRefreshListener {
-            recettesArray.shuffle()
-            adapter.setData(recettesArray)
-            this.binding.swiperefresh.isRefreshing = false
-        }
-        return binding.root
-    }
-    override fun onPause() {
-        super.onPause()
-        Log.i("prout","onPause Called")
-    }
-    override fun onResume() {
-        super.onResume()
-        Log.i("prout","resume Called")
 
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val idArray = mutableListOf<String>()
-        recettesArray.forEach{
-            idArray.add(it.id)
-        }
-        outState.putStringArrayList(KEY_RECETTES, ArrayList(idArray))
-        Log.i("prout","saved data")
-    }
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-
-    Log.i("prout","onCreateView")
-    if (savedInstanceState != null) {
-
-        val idArray = savedInstanceState.getStringArray(KEY_RECETTES)
-        idArray?.forEach {
-            Log.i("prout","test" +it)
-        }
     }
 }
 }

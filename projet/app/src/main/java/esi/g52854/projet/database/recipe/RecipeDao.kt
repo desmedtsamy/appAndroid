@@ -7,23 +7,23 @@ import androidx.room.*
 interface RecipeDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(perso: Perso)
+    fun insert(recipe: Recipe)
 
     @Update
-    fun update(perso: Perso)
+    fun update(recipe: Recipe)
 
     @Query("SELECT * from Recipe WHERE recipeId = :key")
-    fun get(key: Long): Perso?
+    fun get(key: Long): Recipe?
 
     @Query("SELECT * from Recipe WHERE titre = :titre")
-    fun get(titre: String): Perso?
+    fun get(titre: String): Recipe?
 
     @Query("DELETE FROM Recipe")
     fun clear()
 
     @Query("SELECT * FROM Recipe ORDER BY recipeId ASC LIMIT 1")
-    fun getUser(): Perso?
+    fun getUser(): Recipe?
     @Query("SELECT * FROM Recipe ORDER BY recipeId ASC")
-    fun getAllUser(): LiveData<List<Perso>>
+    fun getAllUser(): LiveData<List<Recipe>>
 
 }

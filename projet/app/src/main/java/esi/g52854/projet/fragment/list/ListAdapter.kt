@@ -42,7 +42,7 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         holder.itemView.tag = currentItem.id
         holder.itemView.id_txt.text = days.get(position%days.size)
         holder.itemView.setOnClickListener{
-            model!!.setMsgCommunicator(currentItem.id)
+            model!!.setMsgCommunicator(currentItem)
             this.navController.navigate(R.id.detailFragment)
         }
     }
