@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="24sp">
@@ -10,7 +9,7 @@
         android:id="@+id/id_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lundi"
+        android:text="@string/lundi"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/email_txt"
@@ -22,7 +21,7 @@
         android:id="@+id/email_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lasagne a la bolognaise"
+        android:text="@string/lasagne_a_la_bolognaise"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,13 +43,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="moyen" />
+            android:text="@string/moyen" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="2h42" />
+            android:text="@string/_2h42" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

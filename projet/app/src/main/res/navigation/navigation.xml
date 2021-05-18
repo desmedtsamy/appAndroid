@@ -5,10 +5,10 @@
     android:id="@+id/navigation"
     app:startDestination="@id/listFragment">
     <fragment
-        android:id="@+id/fragment_connexion"
-        android:name="esi.g52854.projet.fragment.connexion.ConnexionFragment"
+        android:id="@+id/fragment_add"
+        android:name="esi.g52854.projet.fragment.add.AddFragment"
         android:label="créer une recette"
-        tools:layout="@layout/fragment_connexion" />
+        tools:layout="@layout/fragment_add" />
     <fragment
         android:id="@+id/aboutFragment"
         android:name="esi.g52854.projet.fragment.about.AboutFragment"

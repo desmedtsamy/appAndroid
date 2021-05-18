@@ -1,5 +1,5 @@
 
-package esi.g52854.projet.fragment.connexion
+package esi.g52854.projet.fragment.add
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -11,23 +11,18 @@ import android.widget.*
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import esi.g52854.projet.R
-import esi.g52854.projet.database.recipe.RecipeViewModel
-import esi.g52854.projet.databinding.FragmentConnexionBinding
+import esi.g52854.projet.databinding.FragmentAddBinding
 
 
-class ConnexionFragment : Fragment() {
+class AddFragment : Fragment() {
 
-    private lateinit var binding: FragmentConnexionBinding
-    private lateinit var viewModel: ConnexionViewModel
-    private lateinit var _RecipeViewModel : RecipeViewModel
+    private lateinit var binding: FragmentAddBinding
     private  var nbEtapes: Int = 1
     private  var nbIngredients: Int = 1
 
-    lateinit var adapter:ArrayAdapter<String?>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,14 +30,11 @@ class ConnexionFragment : Fragment() {
     ): View? {
         val db = Firebase.firestore
 
-        val thiscontext = container!!.getContext()
+        val thiscontext = container!!.context
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_connexion, container, false
+            R.layout.fragment_add, container, false
         )
-
-        _RecipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
-        viewModel = ViewModelProvider(this).get(ConnexionViewModel::class.java)
 
 
         // populate difficulty
@@ -69,7 +61,7 @@ class ConnexionFragment : Fragment() {
             val editText = EditText(thiscontext)
             val textView = TextView(thiscontext)
             listSteps.add(editText)
-            textView.text = "etape "+nbEtapes
+            textView.text = "etape $nbEtapes"
             binding.layout.addView(editText,9+(nbEtapes * 2))
             binding.layout.addView(textView,9+(nbEtapes * 2))
         }
@@ -121,7 +113,7 @@ class ConnexionFragment : Fragment() {
             layout.addView(quantity)
             layout.addView(type)
             layout.addView(ingredient)
-            textView.text = "Ingrédient "+nbIngredients
+            textView.text = "Ingrédient $nbIngredients"
             binding.layout.addView(layout,10+(nbEtapes * 2)+(nbIngredients * 2))
             binding.layout.addView(textView,10+(nbEtapes * 2)+(nbIngredients * 2))
 
@@ -156,17 +148,20 @@ class ConnexionFragment : Fragment() {
                liststepsString.add(it.text.toString())
            }
            val listIngredientsString = mutableListOf<String>()
-           for (i in 0..nbIngredients-1) {
-               var quantity = listIngredientsQuantity.get(i).text.toString()
-               var type = typeStrings.get(listIngredientsTypes.get(i).selectedItemPosition)
-               var ingredient = listIngredients.get(i).text.toString()
-               listIngredientsString.add(quantity+" "+type+" "+ingredient)
+           for (i in 0 until nbIngredients) {
+               val quantity = listIngredientsQuantity[i].text.toString()
+               val type = typeStrings[listIngredientsTypes[i].selectedItemPosition]
+               val ingredient = listIngredients[i].text.toString()
+               listIngredientsString.add("$quantity $type $ingredient")
            }
+           val prepaTime = (binding.prepatimeET.text.toString().toInt()/60).toString() +" h "+ (binding.prepatimeET.text.toString().toInt()%60).toString()
+           val time = (binding.timeET.text.toString().toInt()/60).toString() +" h "+ (binding.timeET.text.toString().toInt()%60).toString()
+
            val recette = hashMapOf(
                "titre" to binding.titreET.text.toString(),
-               "prepaduration" to binding.prepatimeET.text.toString(),
-               "time" to binding.timeET.text.toString(),
-               "difficulty" to difficulty.get(binding.difficultySpinner.selectedItemPosition),
+               "prepaduration" to prepaTime,
+               "time" to time,
+               "difficulty" to difficulty[binding.difficultySpinner.selectedItemPosition],
                "people" to binding.nbpersoET.text.toString(),
                "steps" to liststepsString,
                "ingredients" to listIngredientsString

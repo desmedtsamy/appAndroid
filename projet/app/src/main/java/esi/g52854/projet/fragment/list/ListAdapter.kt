@@ -15,7 +15,7 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     private var recipeList = emptyList<Recette>()
     private lateinit var navController : NavController
     private lateinit var days: Array<String>
-    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {}
+    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -39,10 +39,11 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         val currentItem = recipeList[position]
         holder.itemView.email_txt.text = currentItem.titre
         holder.itemView.difficulty.text = currentItem.difficulty
+        holder.itemView.time.text = currentItem.time
         holder.itemView.tag = currentItem.id
-        holder.itemView.id_txt.text = days.get(position%days.size)
+        holder.itemView.id_txt.text = days[position%days.size]
         holder.itemView.setOnClickListener{
-            model!!.setMsgCommunicator(currentItem)
+            model.setMsgCommunicator(currentItem)
             this.navController.navigate(R.id.detailFragment)
         }
     }

@@ -6,29 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import esi.g52854.projet.Communicator
 import esi.g52854.projet.R
 import esi.g52854.projet.Recette
-import esi.g52854.projet.database.recipe.RecipeViewModel
 import esi.g52854.projet.databinding.FragmentListBinding
-
-const val KEY_RECETTES = "recettes_key"
-
 
 class ListFragment: Fragment() {
 
@@ -62,7 +51,7 @@ class ListFragment: Fragment() {
         initRecettesArray()
 
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.fragment_connexion)
+            findNavController().navigate(R.id.fragment_add)
         }
         this.binding.swiperefresh.setOnRefreshListener {
              db.collection("week")
@@ -80,11 +69,11 @@ class ListFragment: Fragment() {
         }
         return binding.root
     }
-    fun updateView(recettesArray : MutableList<Recette>){
+    private fun updateView(recettesArray : MutableList<Recette>){
         adapter.setData(recettesArray)
 
     }
-    fun addDB(recettesArray : MutableList<Recette>){
+    private fun addDB(recettesArray : MutableList<Recette>){
         Log.i("db","ajout dans la db "+recettesArray.size)
         recettesArray.take(7).forEach {
             db.collection("week")
@@ -92,8 +81,8 @@ class ListFragment: Fragment() {
 
         }
     }
-fun initRecettesArray(){
-    var recettesArray = mutableListOf<Recette>()
+private fun initRecettesArray(){
+    val recettesArray = mutableListOf<Recette>()
     db.collection("week").get().addOnSuccessListener { result ->
         Log.i("db", result.size().toString())
         if (result.isEmpty) {

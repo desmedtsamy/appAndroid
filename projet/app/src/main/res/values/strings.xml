@@ -14,6 +14,30 @@
     <string name="updatedEmail">email mis a jours ✅</string>
     <string name="rowan_atkinson">Rowan Atkinson</string>
     <string name="baby_yoda">baby_yoda</string>
+    <string name="titre">titre</string>
+    <string name="dur_e_preparation_en_minutes">durée preparation (en minutes)</string>
+    <string name="dur_e_total_en_minutes">durée total (en minutes)</string>
+    <string name="dificulty">dificulté</string>
+    <string name="nombre_de_personnes">Nombre de personnes</string>
+    <string name="étapes">étapes</string>
+    <string name="etape_1">etape 1</string>
+    <string name="ajouter_une_etape">Ajouter une étape</string>
+    <string name="ingrédients">ingrédients</string>
+    <string name="quantity">quantité</string>
+    <string name="ingredient">ingrédient</string>
+    <string name="ajouter_un_ingrédient">ajouter un ingrédient</string>
+    <string name="enregistrer_la_recette">enregistrer la recette</string>
+    <string name="hachis_parmentier">Hachis Parmentier</string>
+    <string name="_42">42</string>
+    <string name="_6">6</string>
+    <string name="stepDétail">Hacher l\'oignon et l\'ail. Les faire revenir dans le beurre jusqu\'à ce qu\'ils soient tendres.</string>
+    <string name="lundi">lundi</string>
+    <string name="lasagne_a_la_bolognaise">lasagne a la bolognaise</string>
+    <string name="moyen">moyen</string>
+    <string name="lasagnes_la_bolognaise">Lasagnes à la bolognaise</string>
+    <string name="_2h42">2h42</string>
+    <string name="_6_personnes">6 personnes</string>
+    <string name="_plus_">+</string>
 
     <string-array name="difficulty_array">
         <item>facile</item>

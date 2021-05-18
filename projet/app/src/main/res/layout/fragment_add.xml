@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ScrollView
@@ -10,13 +9,13 @@
         <LinearLayout
             android:id="@+id/layout"
             android:orientation="vertical" android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <TextView android:id="@+id/titreTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="titre"
-                android:textSize="25dp"
+                android:text="@string/titre"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
             <EditText
@@ -26,51 +25,59 @@
                 android:layout_width="400dp"
                 android:layout_height="100dp"
                 android:layout_marginBottom="40dp"
+                android:hint="@string/hachis_parmentier"
                 android:ems="10"
                 android:shadowColor="#FFFFFF"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:autofillHints="" />
             <TextView android:id="@+id/prepatimeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="durée preparation"
-                android:textSize="25dp"
+                android:text="@string/dur_e_preparation_en_minutes"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
+
             <EditText
                 android:id="@+id/prepatimeET"
-                android:inputType="time"
                 style="@style/text"
                 android:layout_width="400dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="40dp"
+                android:autofillHints=""
                 android:ems="10"
-                android:shadowColor="#FFFFFF"
-                android:layout_gravity="center"/>
+                android:hint="@string/_42"
+                android:inputType="time"
+                android:shadowColor="#FFFFFF" />
             <TextView android:id="@+id/timeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="durée total"
-                android:textSize="25dp"
+                android:text="@string/dur_e_total_en_minutes"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
+
             <EditText
-                android:inputType="number"
                 android:id="@+id/timeET"
                 style="@style/text"
                 android:layout_width="400dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="40dp"
+                android:autofillHints=""
                 android:ems="10"
-                android:shadowColor="#FFFFFF"
-                android:layout_gravity="center"/>
+                android:hint="@string/_42"
+                android:inputType="number"
+                android:shadowColor="#FFFFFF" />
             <TextView android:id="@+id/difficultyTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="dificulté"
-                android:textSize="25dp"
+                android:text="@string/dificulty"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
 
@@ -82,57 +89,62 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="Nombre de personne"
-                android:textSize="25dp"
+                android:text="@string/nombre_de_personnes"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
+
             <EditText
-                android:inputType="number"
                 android:id="@+id/nbpersoET"
                 style="@style/text"
                 android:layout_width="400dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="40dp"
+                android:autofillHints=""
                 android:ems="10"
-                android:shadowColor="#FFFFFF"
-                android:layout_gravity="center"/>
+                android:hint="@string/_6"
+                android:inputType="number"
+                android:shadowColor="#FFFFFF" />
 
 
             <TextView android:id="@+id/stepsTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="étapes"
-                android:textSize="25dp"
+                android:text="@string/étapes"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
             <TextView android:id="@+id/step1TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="etape 1"/>
+                android:text="@string/etape_1"/>
 
             <EditText
-                android:inputType="text"
                 android:id="@+id/stepsET"
                 style="@style/text"
                 android:layout_width="400dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:autofillHints=""
                 android:ems="10"
-                android:shadowColor="#FFFFFF"
-                android:layout_gravity="center"/>
+                android:hint="@string/stepDétail"
+                android:inputType="text"
+                android:shadowColor="#FFFFFF" />
             <Button
                 android:id="@+id/moreSteps_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ajouter une étape"
+                android:text="@string/ajouter_une_etape"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="@color/red"/>
             <TextView android:id="@+id/ingrédientsTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="ingrédients"
-                android:textSize="25dp"
+                android:text="@string/ingrédients"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
             <LinearLayout android:layout_width="match_parent"
@@ -140,11 +152,12 @@
                 android:orientation="horizontal">
                 <EditText
                     android:id="@+id/ingredientQuantity"
-                    android:hint="quantité"
+                    android:hint="@string/quantity"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    />
+                    android:autofillHints=""
+                    android:inputType="number" />
 
                 <Spinner
                     android:id="@+id/ingredientSpinner"
@@ -154,11 +167,12 @@
                     />
                 <EditText
                     android:id="@+id/ingredientET"
-                    android:hint="ingrédient"
+                    android:hint="@string/ingredient"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    />
+                    android:autofillHints=""
+                    android:inputType="text" />
             </LinearLayout>
 
 
@@ -166,14 +180,14 @@
                 android:id="@+id/addIngredient_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ajouter un ingrédient"
+                android:text="@string/ajouter_un_ingrédient"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="@color/red"/>
             <Button
                 android:id="@+id/register_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="enregistrer la recette"
+                android:text="@string/enregistrer_la_recette"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="@color/red"/>
 
