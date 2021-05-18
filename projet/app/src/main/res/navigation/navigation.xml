@@ -21,6 +21,6 @@
         tools:layout="@layout/fragment_list" />
     <fragment
         android:id="@+id/detailFragment"
-        android:name="esi.g52854.projet.DetailFragment"
+        android:name="esi.g52854.projet.fragment.detail.DetailFragment"
         android:label="recette" />
 </navigation>

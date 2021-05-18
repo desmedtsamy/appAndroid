@@ -61,7 +61,7 @@ class AddFragment : Fragment() {
             val editText = EditText(thiscontext)
             val textView = TextView(thiscontext)
             listSteps.add(editText)
-            textView.text = "etape $nbEtapes"
+            textView.text = getString(R.string.etapeNum, nbEtapes)
             binding.layout.addView(editText,9+(nbEtapes * 2))
             binding.layout.addView(textView,9+(nbEtapes * 2))
         }
@@ -113,7 +113,7 @@ class AddFragment : Fragment() {
             layout.addView(quantity)
             layout.addView(type)
             layout.addView(ingredient)
-            textView.text = "Ingrédient $nbIngredients"
+            textView.text = getString(R.string.ingredientNum, nbIngredients)
             binding.layout.addView(layout,10+(nbEtapes * 2)+(nbIngredients * 2))
             binding.layout.addView(textView,10+(nbEtapes * 2)+(nbIngredients * 2))
 
@@ -169,7 +169,7 @@ class AddFragment : Fragment() {
            db.collection("recette")
                .add(recette)
                .addOnSuccessListener { documentReference ->
-                   Toast.makeText(activity, getString(R.string.added_email), Toast.LENGTH_SHORT).show()
+                   Toast.makeText(activity, getString(R.string.added_recette), Toast.LENGTH_SHORT).show()
                }
                .addOnFailureListener { e ->
                    Log.w(TAG, "Error adding document", e)

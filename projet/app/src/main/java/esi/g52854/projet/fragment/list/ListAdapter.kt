@@ -1,10 +1,15 @@
 package esi.g52854.projet.fragment.list
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import esi.g52854.projet.Communicator
 import esi.g52854.projet.R
 import esi.g52854.projet.Recette
@@ -15,6 +20,8 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     private var recipeList = emptyList<Recette>()
     private lateinit var navController : NavController
     private lateinit var days: Array<String>
+    private lateinit var db : FirebaseFirestore
+
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -26,15 +33,16 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
        return recipeList.size
     }
-    fun setNavController(navController : NavController){
-        this.navController = navController
-    }
-    fun setModel(model : Communicator){
+
+    fun init(model : Communicator,navController : NavController,days: Array<String>){
+        db = Firebase.firestore
         this.model = model
-    }
-    fun setDays(days: Array<String>){
+        this.navController = navController
         this.days = days
+
+        initRecettesArray()
     }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = recipeList[position]
         holder.itemView.email_txt.text = currentItem.titre
@@ -48,8 +56,72 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         }
     }
 
-    fun setData(recipe: List<Recette>){
+    private fun setData(recipe: List<Recette>){
         this.recipeList = recipe
         notifyDataSetChanged()
+    }
+
+    private fun updateView(recettesArray : MutableList<Recette>){
+        setData(recettesArray)
+
+    }
+    private fun addDB(recettesArray : MutableList<Recette>){
+        Log.i("db","ajout dans la db "+recettesArray.size)
+        recettesArray.take(7).forEach {
+            db.collection("week")
+                    .add(it)
+
+        }
+    }
+    fun refresh(){
+        db.collection("week")
+                .get()
+                .addOnSuccessListener { documents ->
+
+                    Log.i("db", documents.size().toString())
+                    for (document in documents) {
+                        document.reference.delete()
+                    }
+                    initRecettesArray()
+                }
+    }
+    private fun setData(table :String){
+
+        val recettesArray = mutableListOf<Recette>()
+
+                db.collection(table).get()
+                        .addOnSuccessListener { result ->
+                            for (document in result.take(7)) {
+                                val titre = document.data["titre"] as String
+                                val time = document.data["prepaduration"] as String
+                                val timeTotal = document.data["time"] as String
+                                val nbPerson = document.data["people"] as String
+                                val difficulty = document.data["difficulty"] as String
+
+                                val steps = document.data["steps"] as List<String>
+                                val ingredients = document.data["ingredients"] as List<String>
+                                Log.i("db", titre)
+                                recettesArray.add(
+                                        Recette(document.id, titre, difficulty, nbPerson, time, timeTotal, steps, ingredients)
+                                )
+                            }
+                            if(table == "recette"){
+                                recettesArray.shuffle()
+                                addDB(recettesArray)
+                            }
+                            updateView(recettesArray)
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d(TAG, "Error getting documents: ", exception)
+                        }
+            }
+    private fun initRecettesArray(){
+        db.collection("week").get().addOnSuccessListener { result ->
+            Log.i("db", result.size().toString())
+            if (result.isEmpty)
+                setData("recette")
+            else
+                setData("week")
+        }
     }
 }

@@ -1,17 +1,10 @@
 <resources>
     <string name="app_name">projet</string>
-    <string name="Email">Email</string>
-    <string name="CONNEXION">CONNEXION</string>
-    <string name="connexion">connexion</string>
-    <string name="singIn_title">SIGN IN</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dev_name">Samy De Smedt</string>
     <string name="information">Samy De Smedt, 52854</string>
     <string name="about_title">about</string>
-    <string name="unvalid_email">erreur email invalide ❌</string>
-    <string name="added_email">email Ajouté a la db ✅</string>
-    <string name="updatedEmail">email mis a jours ✅</string>
+    <string name="added_recette">recette Ajouté a la db ✅</string>
     <string name="rowan_atkinson">Rowan Atkinson</string>
     <string name="baby_yoda">baby_yoda</string>
     <string name="titre">titre</string>
@@ -38,7 +31,10 @@
     <string name="_2h42">2h42</string>
     <string name="_6_personnes">6 personnes</string>
     <string name="_plus_">+</string>
-
+    <string name="etapeNum">etape %1$d</string>
+    <string name="ingredientNum">ingrédient %1$d</string>
+    <string name="prepaDur">durée de preparation : %1$s</string>
+    <string name="persoNb">%1$s personnes</string>
     <string-array name="difficulty_array">
         <item>facile</item>
         <item>moyen</item>
