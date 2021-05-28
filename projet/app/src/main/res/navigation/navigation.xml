@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="esi.g52854.projet.fragment.list.ListFragment"
-        android:label="liste des recette"
+        android:label="liste des recettes"
         tools:layout="@layout/fragment_list" />
     <fragment
         android:id="@+id/detailFragment"

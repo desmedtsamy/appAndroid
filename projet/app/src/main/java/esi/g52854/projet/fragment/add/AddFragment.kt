@@ -154,8 +154,8 @@ class AddFragment : Fragment() {
                val ingredient = listIngredients[i].text.toString()
                listIngredientsString.add("$quantity $type $ingredient")
            }
-           val prepaTime = (binding.prepatimeET.text.toString().toInt()/60).toString() +" h "+ (binding.prepatimeET.text.toString().toInt()%60).toString()
-           val time = (binding.timeET.text.toString().toInt()/60).toString() +" h "+ (binding.timeET.text.toString().toInt()%60).toString()
+           val prepaTime = time(binding.prepatimeET.text.toString().toInt())
+           val time = time(binding.timeET.text.toString().toInt())
 
            val recette = hashMapOf(
                "titre" to binding.titreET.text.toString(),
@@ -178,6 +178,19 @@ class AddFragment : Fragment() {
             }
 
         return binding.root
+    }
+    fun time(time:Int): String {
+        var tmp = time
+        var hour = 0
+        while(time >= 60){
+            hour++
+            tmp -= 60
+        }
+        if(hour == 0){
+            return time.toString()+" minutes"
+        }
+        return hour.toString()+" h"+tmp.toString()
+
     }
 
 }
