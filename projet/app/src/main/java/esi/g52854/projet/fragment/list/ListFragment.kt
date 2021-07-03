@@ -1,5 +1,9 @@
 package esi.g52854.projet.fragment.list
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +21,6 @@ class ListFragment: Fragment() {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var adapter : ListAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +44,7 @@ class ListFragment: Fragment() {
 
 
         binding.floatingActionButton.setOnClickListener {
+
             findNavController().navigate(R.id.fragment_add)
         }
         this.binding.swiperefresh.setOnRefreshListener {
