@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -39,14 +40,30 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 dependencies {
-implementation 'com.google.firebase:firebase-firestore-ktx'
-   implementation 'com.android.support:multidex:1.0.3'
-   implementation platform('com.google.firebase:firebase-bom:28.0.1')
-   implementation "android.arch.lifecycle:extensions:1.1.1"
+    //firebase
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation platform('com.google.firebase:firebase-bom:28.3.0')
+    //authentification
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
+    implementation 'com.google.firebase:firebase-database-ktx:19.2.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation 'com.android.support:multidex:1.0.3'
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    //notification firebase
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+
+    implementation 'com.google.firebase:firebase-inappmessaging-display'
+    implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'com.google.android.gms:play-services-basement:17.5.0'
+
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -61,6 +78,7 @@ implementation 'com.google.firebase:firebase-firestore-ktx'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"

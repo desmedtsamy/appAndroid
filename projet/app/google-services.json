@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "350072110846-i7lr18kifq65gb92ftaam491fn4un1s2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "esi.g52854.projet",
+            "certificate_hash": "c4ea049d6f2863a60248d5507ff646b79a31ef6d"
+          }
+        },
+        {
           "client_id": "350072110846-im5m6rsn51r00uq4vv480vl9b76jr5ui.apps.googleusercontent.com",
           "client_type": 3
         }

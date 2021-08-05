@@ -1,21 +1,25 @@
 package esi.g52854.projet.fragment.list
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import esi.g52854.projet.Communicator
+import esi.g52854.projet.MainActivity
 import esi.g52854.projet.R
 import esi.g52854.projet.databinding.FragmentListBinding
+
 
 class ListFragment: Fragment() {
 
@@ -36,7 +40,7 @@ class ListFragment: Fragment() {
         val model= ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
 
         adapter = ListAdapter()
-        adapter.init(model,findNavController(),resources.getStringArray(R.array.day_array))
+        adapter.init(model,findNavController(),resources.getStringArray(R.array.day_array),(requireActivity() as MainActivity).getUser())
 
         val recyclerView = binding.recyclerview
         recyclerView.adapter = adapter
@@ -47,11 +51,23 @@ class ListFragment: Fragment() {
 
             findNavController().navigate(R.id.fragment_add)
         }
+        binding.disconnect.setOnClickListener {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+            val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+            mGoogleSignInClient.signOut()
+            Toast.makeText(requireActivity(), "You are Logged Out", Toast.LENGTH_SHORT).show()
+            (requireActivity() as MainActivity).setUser("0")
+            findNavController().navigate(R.id.aboutFragment)
+        }
         this.binding.swiperefresh.setOnRefreshListener {
             adapter.refresh()
               this.binding.swiperefresh.isRefreshing = false
 
         }
+
         return binding.root
     }
 }
