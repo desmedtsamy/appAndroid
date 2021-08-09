@@ -4,7 +4,6 @@ package esi.g52854.projet.fragment.connection
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,17 +31,15 @@ import esi.g52854.projet.databinding.FragmentListBinding
 
 class connectionFragment : Fragment() {
 
-    private lateinit var signInButton: SignInButton
     private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private val TAG = "prout"
     private var mAuth: FirebaseAuth? = null
-    private var btnSignOut: Button? = null
+
     private val RC_SIGN_IN = 1
     private lateinit var binding: FragmentConnectionBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        if ((activity as MainActivity).getUser() != "0"){
+        if ((activity as MainActivity).user != "0"){
 
             findNavController().navigate(R.id.listFragment)
         }
@@ -51,28 +48,16 @@ class connectionFragment : Fragment() {
                 R.layout.fragment_connection, container, false
         )
 
-         signInButton = binding.signInButton
-        binding.ViewRecipes.setOnClickListener {
 
-            findNavController().navigate(R.id.listFragment)
-        }
-        mAuth = FirebaseAuth.getInstance()
-         btnSignOut = binding.singout
+         mAuth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
 
-         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-        binding.signInButton.setOnClickListener(View.OnClickListener { signIn() })
-
-        btnSignOut!!.setOnClickListener(View.OnClickListener {
-
-            mGoogleSignInClient.signOut()
-            Toast.makeText(requireActivity(), "You are Logged Out", Toast.LENGTH_SHORT).show()
-            btnSignOut!!.setVisibility(View.INVISIBLE)
-        })
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        binding.join.setOnClickListener(View.OnClickListener { signIn() })
 
         return binding.root
     }
@@ -122,9 +107,10 @@ class connectionFragment : Fragment() {
     }
 
     private fun updateUI(fUser: FirebaseUser?) {
-        var mainActivity: MainActivity = activity as MainActivity
         if (fUser != null) {
-            mainActivity.setUser(fUser.uid)
+
+            var mainActivity: MainActivity = activity as MainActivity
+            mainActivity.user = fUser.uid
         }
         findNavController().navigate(R.id.listFragment)
     }

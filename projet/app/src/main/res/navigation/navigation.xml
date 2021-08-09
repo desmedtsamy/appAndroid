@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/aboutFragment">
+    app:startDestination="@id/connectionFragment">
     <fragment
         android:id="@+id/fragment_add"
         android:name="esi.g52854.projet.fragment.add.AddFragment"
         android:label="créer une recette"
         tools:layout="@layout/fragment_add" />
     <fragment
-        android:id="@+id/aboutFragment"
+        android:id="@+id/connectionFragment"
         android:name="esi.g52854.projet.fragment.connection.connectionFragment"
         android:label="@string/about_title"
         tools:layout="@layout/fragment_connection" />
@@ -23,4 +23,9 @@
         android:id="@+id/detailFragment"
         android:name="esi.g52854.projet.fragment.detail.DetailFragment"
         android:label="recette" />
+    <fragment
+        android:id="@+id/fragment_offline"
+        android:name="esi.g52854.projet.fragment_offline"
+        android:label="fragment_offline"
+        tools:layout="@layout/fragment_offline" />
 </navigation>

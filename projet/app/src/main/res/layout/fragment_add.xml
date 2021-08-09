@@ -183,6 +183,24 @@
                 android:text="@string/ajouter_un_ingrédient"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="@color/red"/>
+
+            <Button
+                android:id="@+id/image_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ajouter une image"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="@color/red" />
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@color/red"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/baby_yoda" />
+
             <Button
                 android:id="@+id/register_button"
                 android:layout_width="match_parent"
@@ -190,7 +208,6 @@
                 android:text="@string/enregistrer_la_recette"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="@color/red"/>
-
 
 
         </LinearLayout>

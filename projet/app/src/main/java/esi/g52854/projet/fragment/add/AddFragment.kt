@@ -1,34 +1,48 @@
 
 package esi.g52854.projet.fragment.add
 
+import android.app.Activity.RESULT_OK
+import android.app.ProgressDialog
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.OnProgressListener
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import esi.g52854.projet.R
 import esi.g52854.projet.databinding.FragmentAddBinding
+import java.io.IOException
+import java.util.*
 
 
 class AddFragment : Fragment() {
-
+    private var imageId = "default.jpg"
     private lateinit var binding: FragmentAddBinding
-    private  var nbEtapes: Int = 1
-    private  var nbIngredients: Int = 1
-
+    private var nbEtapes: Int = 1
+    private var nbIngredients: Int = 1
+    //image
+    private lateinit var filePath: Uri
+    private val PICK_IMAGE_REQUEST = 71
+    private lateinit var db : FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val db = Firebase.firestore
+         db = Firebase.firestore
 
         val thiscontext = container!!.context
         binding = DataBindingUtil.inflate(
@@ -143,6 +157,9 @@ class AddFragment : Fragment() {
         }
 
        binding.registerButton.setOnClickListener{
+           if(imageId != "default.jpg"){
+               uploadImage()
+           }
            val liststepsString = mutableListOf<String>()
            listSteps.forEach{
                liststepsString.add(it.text.toString())
@@ -156,7 +173,6 @@ class AddFragment : Fragment() {
            }
            val prepaTime = time(binding.prepatimeET.text.toString().toInt())
            val time = time(binding.timeET.text.toString().toInt())
-
            val recette = hashMapOf(
                "titre" to binding.titreET.text.toString(),
                "prepaduration" to prepaTime,
@@ -164,7 +180,8 @@ class AddFragment : Fragment() {
                "difficulty" to difficulty[binding.difficultySpinner.selectedItemPosition],
                "people" to binding.nbpersoET.text.toString(),
                "steps" to liststepsString,
-               "ingredients" to listIngredientsString
+               "ingredients" to listIngredientsString,
+               "imageId" to imageId
            )
            db.collection("recette")
                .add(recette)
@@ -177,7 +194,71 @@ class AddFragment : Fragment() {
 
             }
 
+
+        //////////////image//////////////
+        binding.imageButton.setOnClickListener{
+            chooseImage()
+        }
+
         return binding.root
+    }
+    private fun chooseImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
+
+        imageId = UUID.randomUUID().toString()
+    }
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null
+        ) {
+            filePath = data.data!!
+            try {
+                binding.image.visibility = View.VISIBLE
+                val bitmap =
+                    MediaStore.Images.Media.getBitmap(context?.contentResolver, filePath)
+                binding.image.setImageBitmap(bitmap)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+    private fun uploadImage() {
+        var storageReference: StorageReference
+        var storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        if (filePath != null) {
+            val progressDialog = ProgressDialog(requireActivity())
+            progressDialog.setTitle("Uploading...")
+            progressDialog.show()
+            val ref: StorageReference =
+                storageReference.child("images/" + imageId)
+            ref.putFile(filePath)
+                .addOnSuccessListener {
+                    progressDialog.dismiss()
+                    Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    progressDialog.dismiss()
+                    Toast.makeText(requireActivity(), "Failed " + e.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+                .addOnProgressListener(object :
+                    OnProgressListener<UploadTask.TaskSnapshot?> {
+                    override fun onProgress(taskSnapshot: UploadTask.TaskSnapshot) {
+                        val progress =
+                            100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                                .totalByteCount
+                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+                    }
+                })
+        }
     }
     fun time(time:Int): String {
         var tmp = time

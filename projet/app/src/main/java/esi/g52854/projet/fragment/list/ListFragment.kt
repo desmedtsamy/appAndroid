@@ -1,13 +1,10 @@
 package esi.g52854.projet.fragment.list
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -40,7 +37,7 @@ class ListFragment: Fragment() {
         val model= ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
 
         adapter = ListAdapter()
-        adapter.init(model,findNavController(),resources.getStringArray(R.array.day_array),(requireActivity() as MainActivity).getUser())
+        adapter.init(model,findNavController(),resources.getStringArray(R.array.day_array),(requireActivity() as MainActivity).user)
 
         val recyclerView = binding.recyclerview
         recyclerView.adapter = adapter
@@ -59,8 +56,8 @@ class ListFragment: Fragment() {
             val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
             mGoogleSignInClient.signOut()
             Toast.makeText(requireActivity(), "You are Logged Out", Toast.LENGTH_SHORT).show()
-            (requireActivity() as MainActivity).setUser("0")
-            findNavController().navigate(R.id.aboutFragment)
+            (requireActivity() as MainActivity).user = "0"
+            findNavController().navigate(R.id.connectionFragment)
         }
         this.binding.swiperefresh.setOnRefreshListener {
             adapter.refresh()
