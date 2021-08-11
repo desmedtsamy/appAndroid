@@ -25,7 +25,6 @@ import esi.g52854.projet.databinding.FragmentListBinding
 class ListFragment: Fragment() {
 
     private lateinit var binding: FragmentListBinding
-    private lateinit var adapter : ListAdapter
     private lateinit var viewModel: ListViewModel
 
     override fun onCreateView(
@@ -41,17 +40,9 @@ class ListFragment: Fragment() {
         )
 
         val model= ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
-
-        adapter = ListAdapter()
-        adapter.init(resources.getStringArray(R.array.day_array),model,findNavController())
-        viewModel.init((requireActivity() as MainActivity).user)
-        Handler(Looper.getMainLooper()).postDelayed({
-            adapter.setData(viewModel.recettesArray)
-        }, 1000)
-
-
+        viewModel.init((requireActivity() as MainActivity).user,resources.getStringArray(R.array.day_array),model,findNavController())
         val recyclerView = binding.recyclerview
-        recyclerView.adapter = adapter
+        recyclerView.adapter = viewModel.adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
 
@@ -59,13 +50,14 @@ class ListFragment: Fragment() {
 
             findNavController().navigate(R.id.fragment_add)
         }
+
         binding.disconnect.setOnClickListener {
             disconnect()
         }
-        this.binding.swiperefresh.setOnRefreshListener {
-            refresh()
-            this.binding.swiperefresh.isRefreshing = false
 
+        this.binding.swiperefresh.setOnRefreshListener {
+            viewModel.refresh()
+            this.binding.swiperefresh.isRefreshing = false
         }
 
         return binding.root
@@ -80,9 +72,5 @@ class ListFragment: Fragment() {
         Toast.makeText(requireActivity(), "You are Logged Out", Toast.LENGTH_SHORT).show()
         (requireActivity() as MainActivity).user = "0"
         findNavController().navigate(R.id.connectionFragment)
-    }
-    private fun refresh(){
-        viewModel.refresh()
-        adapter.setData(viewModel.recettesArray)
     }
 }

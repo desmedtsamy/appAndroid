@@ -14,22 +14,23 @@ import esi.g52854.projet.Recette
 class ListViewModel : ViewModel(){
 
     var recettesArray: MutableList<Recette> = mutableListOf()
+    lateinit var adapter : ListAdapter
     private lateinit var db : FirebaseFirestore
     private lateinit var user : String
     private var firstTime : Boolean = true
 
-    fun init(user: String){
+    fun init(user: String,days: Array<String>,model : Communicator,navController : NavController){
         if(firstTime){
             firstTime = false
+
+            adapter = ListAdapter()
+            adapter.init(days,model,navController)
+
             db = Firebase.firestore
             this.user = user
 
             initRecettesArray()
-            recettesArray.forEach() {
-                Log.i("test42", it.titre)
-            }
 
-            Log.i("test42", "------------------")
         }
     }
 
@@ -43,6 +44,7 @@ class ListViewModel : ViewModel(){
                     }
                     initRecettesArray()
                 }
+        adapter.setData(recettesArray)
     }
     private fun initRecettesArray(){
         db.collection(user).get().addOnSuccessListener { result ->
@@ -54,10 +56,6 @@ class ListViewModel : ViewModel(){
     }
     private fun setData(table :String){
         recettesArray = mutableListOf()
-        recettesArray.forEach(){
-            Log.i("test42",it.titre)}
-
-        Log.i("test42","------------------")
         db.collection(table).get()
                 .addOnSuccessListener { result ->
                     if (table == "recette") {
@@ -68,10 +66,7 @@ class ListViewModel : ViewModel(){
                         docToRecettes(result.documents)
                     }
 
-                    result.documents.forEach(){
-                        Log.i("test42",it.data?.get("titre").toString())}
-
-                    Log.i("test42","------------------")
+                    adapter.setData(recettesArray)
                 }
     }
     private fun takeRecipe(result: QuerySnapshot): MutableList<DocumentSnapshot> {
@@ -114,7 +109,6 @@ class ListViewModel : ViewModel(){
         recettesArray.take(7).forEach {
             db.collection(user)
                     .add(it)
-
         }
     }
 

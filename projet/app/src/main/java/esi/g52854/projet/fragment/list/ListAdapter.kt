@@ -72,5 +72,4 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         this.recipeList = recipe
         notifyDataSetChanged()
     }
-
 }
