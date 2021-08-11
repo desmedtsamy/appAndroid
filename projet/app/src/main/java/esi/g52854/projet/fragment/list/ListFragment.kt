@@ -1,12 +1,16 @@
 package esi.g52854.projet.fragment.list
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,12 +26,14 @@ class ListFragment: Fragment() {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var adapter : ListAdapter
+    private lateinit var viewModel: ListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
             ): View? {
 
+        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -37,7 +43,12 @@ class ListFragment: Fragment() {
         val model= ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
 
         adapter = ListAdapter()
-        adapter.init(model,findNavController(),resources.getStringArray(R.array.day_array),(requireActivity() as MainActivity).user)
+        adapter.init(resources.getStringArray(R.array.day_array),model,findNavController())
+        viewModel.init((requireActivity() as MainActivity).user)
+        Handler(Looper.getMainLooper()).postDelayed({
+            adapter.setData(viewModel.recettesArray)
+        }, 1000)
+
 
         val recyclerView = binding.recyclerview
         recyclerView.adapter = adapter
@@ -49,22 +60,29 @@ class ListFragment: Fragment() {
             findNavController().navigate(R.id.fragment_add)
         }
         binding.disconnect.setOnClickListener {
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-            val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-            mGoogleSignInClient.signOut()
-            Toast.makeText(requireActivity(), "You are Logged Out", Toast.LENGTH_SHORT).show()
-            (requireActivity() as MainActivity).user = "0"
-            findNavController().navigate(R.id.connectionFragment)
+            disconnect()
         }
         this.binding.swiperefresh.setOnRefreshListener {
-            adapter.refresh()
-              this.binding.swiperefresh.isRefreshing = false
+            refresh()
+            this.binding.swiperefresh.isRefreshing = false
 
         }
 
         return binding.root
+    }
+    private fun disconnect(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        mGoogleSignInClient.signOut()
+        Toast.makeText(requireActivity(), "You are Logged Out", Toast.LENGTH_SHORT).show()
+        (requireActivity() as MainActivity).user = "0"
+        findNavController().navigate(R.id.connectionFragment)
+    }
+    private fun refresh(){
+        viewModel.refresh()
+        adapter.setData(viewModel.recettesArray)
     }
 }
