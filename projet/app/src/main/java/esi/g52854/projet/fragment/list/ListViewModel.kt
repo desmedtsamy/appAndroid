@@ -1,6 +1,6 @@
 package esi.g52854.projet.fragment.list
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.firebase.firestore.DocumentSnapshot
@@ -8,34 +8,22 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import esi.g52854.projet.Communicator
+import esi.g52854.projet.MainActivity
 import esi.g52854.projet.Recette
 
-class ListViewModel : ViewModel(){
+class ListViewModel @SuppressLint("StaticFieldLeak") constructor(private val user: String, days: Array<String>,
+                                                                 main: MainActivity, navController : NavController)
+    : ViewModel(){
 
-    var recettesArray: MutableList<Recette> = mutableListOf()
-    lateinit var adapter : ListAdapter
-    private lateinit var db : FirebaseFirestore
-    private lateinit var user : String
-    private var firstTime : Boolean = true
+    private var recettesArray: MutableList<Recette> = mutableListOf()
+    var adapter : ListAdapter = ListAdapter(days,main,navController)
+    private var db : FirebaseFirestore = Firebase.firestore
 
-    fun init(user: String,days: Array<String>,model : Communicator,navController : NavController){
-        if(firstTime){
-            firstTime = false
+    init{
 
-            adapter = ListAdapter()
-            adapter.init(days,model,navController)
-
-            db = Firebase.firestore
-            this.user = user
-
-            initRecettesArray()
-
-        }
+        initRecettesArray()
     }
-
     fun refresh(){
-
         db.collection(user)
                 .get()
                 .addOnSuccessListener { documents ->
@@ -70,15 +58,19 @@ class ListViewModel : ViewModel(){
                 }
     }
     private fun takeRecipe(result: QuerySnapshot): MutableList<DocumentSnapshot> {
-        var documentArray:MutableList<DocumentSnapshot> = mutableListOf()
+        val documentArray:MutableList<DocumentSnapshot> = mutableListOf()
+        val array:MutableList<DocumentSnapshot> = result.documents
+
+        array.shuffle()
+
         for (i in 1..7){
-            var document = result.documents.random()
-            documentArray.add(document)
-            result.documents.remove(document)
+            documentArray.add(array.first())
+            array.remove(array.first())
         }
         return documentArray
     }
     private fun docToRecettes(documents : MutableList<DocumentSnapshot>){
+
         documents.forEach{
             val titre = it.data?.get("titre") as String
             val time = it.data!!["prepaduration"] as String
@@ -106,10 +98,10 @@ class ListViewModel : ViewModel(){
 
     }
     private fun addDB(recettesArray : MutableList<Recette>){
-        recettesArray.take(7).forEach {
+
+     recettesArray.take(7).forEach {
             db.collection(user)
                     .add(it)
         }
     }
-
 }

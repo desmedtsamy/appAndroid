@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".fragment.connection.connectionFragment">
+        tools:context=".fragment.connexion.ConnexionFragment">
 
         <ScrollView
 
@@ -32,7 +32,6 @@
                     android:id="@+id/image_recipe"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:src="@drawable/boulettesaucetomate"

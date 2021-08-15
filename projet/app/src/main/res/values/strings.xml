@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name">projet</string>
 
-    <string name="dev_name">Samy De Smedt</string>
-    <string name="information">Samy De Smedt, 52854</string>
     <string name="about_title">about</string>
     <string name="added_recette">recette Ajouté a la db ✅</string>
-    <string name="rowan_atkinson">Rowan Atkinson</string>
-    <string name="baby_yoda">baby_yoda</string>
     <string name="titre">titre</string>
     <string name="dur_e_preparation_en_minutes">durée preparation (en minutes)</string>
     <string name="dur_e_total_en_minutes">durée total (en minutes)</string>
@@ -25,7 +21,6 @@
     <string name="_6">6</string>
     <string name="stepDétail">Hacher l\'oignon et l\'ail. Les faire revenir dans le beurre jusqu\'à ce qu\'ils soient tendres.</string>
     <string name="lundi">lundi</string>
-    <string name="lasagne_a_la_bolognaise">lasagne a la bolognaise</string>
     <string name="moyen">moyen</string>
     <string name="lasagnes_la_bolognaise">Lasagnes à la bolognaise</string>
     <string name="_2h42">2h42</string>
@@ -58,5 +53,15 @@
         <item>dimanche</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="boulettes">Boulettes sauce tomate</string>
+    <string name="time">time</string>
+    <string name="freuuuu">feuuuuu</string>
+    <string name="facile">facile</string>
+    <string name="addImage">ajouter une image</string>
+    <string name="dark_vador">dark vador</string>
+    <string name="dark_side">click to join the dark side</string>
+    <string name="viens">allez viens on est bien</string>
+    <string name="disconnect">disconnect</string>
+    <string name="confused_travolta">confused travolta</string>
+    <string name="taken">" taken"</string>
 </resources>

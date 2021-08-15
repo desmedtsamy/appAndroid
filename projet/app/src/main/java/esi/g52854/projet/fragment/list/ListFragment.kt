@@ -1,9 +1,6 @@
 package esi.g52854.projet.fragment.list
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +8,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import esi.g52854.projet.Communicator
 import esi.g52854.projet.MainActivity
 import esi.g52854.projet.R
 import esi.g52854.projet.databinding.FragmentListBinding
@@ -26,21 +21,24 @@ class ListFragment: Fragment() {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var viewModel: ListViewModel
+    private lateinit var viewModelFactory: ListViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-            ): View? {
+            ): View {
 
-        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
 
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_list, container, false
         )
 
-        val model= ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
-        viewModel.init((requireActivity() as MainActivity).user,resources.getStringArray(R.array.day_array),model,findNavController())
+        viewModelFactory = ListViewModelFactory((requireActivity() as MainActivity).user,
+                resources.getStringArray(R.array.day_array),requireActivity() as MainActivity,findNavController())
+        viewModel = ViewModelProvider(this, viewModelFactory)
+                .get(ListViewModel::class.java)
+
         val recyclerView = binding.recyclerview
         recyclerView.adapter = viewModel.adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -71,6 +69,6 @@ class ListFragment: Fragment() {
         mGoogleSignInClient.signOut()
         Toast.makeText(requireActivity(), "You are Logged Out", Toast.LENGTH_SHORT).show()
         (requireActivity() as MainActivity).user = "0"
-        findNavController().navigate(R.id.connectionFragment)
+        findNavController().navigate(R.id.connexionFragment)
     }
 }

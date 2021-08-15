@@ -188,7 +188,7 @@
                 android:id="@+id/image_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ajouter une image"
+                android:text="@string/addImage"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="@color/red" />
 
@@ -198,8 +198,8 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:background="@color/red"
-                android:visibility="invisible"
-                app:srcCompat="@drawable/baby_yoda" />
+                android:contentDescription="@string/boulettes"
+                app:srcCompat="@drawable/boulettesaucetomate" />
 
             <Button
                 android:id="@+id/register_button"

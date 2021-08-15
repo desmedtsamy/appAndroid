@@ -1,33 +1,22 @@
 package esi.g52854.projet.fragment.list
 
-import android.content.ContentValues.TAG
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import esi.g52854.projet.Communicator
+import esi.g52854.projet.MainActivity
 import esi.g52854.projet.R
 import esi.g52854.projet.Recette
 import kotlinx.android.synthetic.main.custom_row.view.*
-import kotlinx.android.synthetic.main.custom_row.view.difficulty
-import kotlinx.android.synthetic.main.custom_row.view.time
 import java.io.File
 
-class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
-    private lateinit var model: Communicator
+class ListAdapter(private val days: Array<String>, private val main : MainActivity, private val navController : NavController): RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     private var recipeList = emptyList<Recette>()
-    private lateinit var navController : NavController
-    private lateinit var days: Array<String>
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
@@ -41,11 +30,6 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
        return recipeList.size
     }
 
-    fun init(days: Array<String>,model : Communicator,navController : NavController){
-        this.model = model
-        this.days = days
-        this.navController = navController
-    }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = recipeList[position]
@@ -56,7 +40,7 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         holder.itemView.persons.text = currentItem.people
         holder.itemView.day_txt.text = days[position%days.size]
         holder.itemView.setOnClickListener{
-            model.setMsgCommunicator(currentItem)
+            main.recette = currentItem
             this.navController.navigate(R.id.detailFragment)
         }
             val mStorageReference : StorageReference = FirebaseStorage.getInstance().reference.child("images/"+currentItem.imageId)

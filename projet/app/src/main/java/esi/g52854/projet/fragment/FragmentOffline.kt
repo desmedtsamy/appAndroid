@@ -1,4 +1,4 @@
-package esi.g52854.projet
+package esi.g52854.projet.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
-import esi.g52854.projet.databinding.FragmentListBinding
+import esi.g52854.projet.R
 import esi.g52854.projet.databinding.FragmentOfflineBinding
 import java.io.IOException
 
-class fragment_offline : Fragment() {
+class FragmentOffline : Fragment() {
 
 
     private lateinit var binding: FragmentOfflineBinding
@@ -23,18 +23,17 @@ class fragment_offline : Fragment() {
         Log.i("test42","onCreate")
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(
                 inflater,
                 R.layout.fragment_offline, container, false
         )
-        Log.i("test42","onCreateView")
 
         this.binding.swiperefresh.setOnRefreshListener {
             this.binding.swiperefresh.isRefreshing = false
            if(isOnline()){
 
-               findNavController().navigate(R.id.connectionFragment)
+               findNavController().navigate(R.id.connexionFragment)
            }else{
                Toast.makeText(requireActivity(), "You are offline ", Toast.LENGTH_SHORT).show()
            }
@@ -44,7 +43,7 @@ class fragment_offline : Fragment() {
         return this.binding.root
     }
 
-    fun isOnline(): Boolean {
+    private fun isOnline(): Boolean {
         val runtime = Runtime.getRuntime()
         try {
             val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
