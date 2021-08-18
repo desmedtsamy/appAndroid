@@ -52,7 +52,7 @@
         <item>samedi</item>
         <item>dimanche</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="oui">oui</string>
     <string name="boulettes">Boulettes sauce tomate</string>
     <string name="time">time</string>
     <string name="freuuuu">feuuuuu</string>

@@ -133,7 +133,7 @@
                 android:inputType="text"
                 android:shadowColor="#FFFFFF" />
             <Button
-                android:id="@+id/moreSteps_button"
+                android:id="@+id/addSteps_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/ajouter_une_etape"
