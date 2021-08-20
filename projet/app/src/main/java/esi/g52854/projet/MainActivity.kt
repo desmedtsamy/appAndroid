@@ -3,6 +3,7 @@ package esi.g52854.projet
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,7 +11,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import esi.g52854.projet.databinding.ActivityMainBinding
-import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,8 +21,9 @@ class MainActivity : AppCompatActivity() {
         get() = _user
 
         set(newVal){
-
+            Log.i("test42", "main : $newVal")
             _user = newVal
+
             val preferences: SharedPreferences =
                     applicationContext.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
             val editor = preferences.edit()
@@ -39,10 +40,6 @@ class MainActivity : AppCompatActivity() {
         val preferences: SharedPreferences = applicationContext.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
         user = preferences.getString("user", 0.toString()).toString()
 
-        if(!isOnline()){
-            this.findNavController(R.id.myNavHostFragment).navigate(R.id.fragment_offline)
-        }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -55,17 +52,5 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
-    private fun isOnline(): Boolean {
-        val runtime = Runtime.getRuntime()
-        try {
-            val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
-            val exitValue = ipProcess.waitFor()
-            return exitValue == 0
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-        return false
-    }
+
 }

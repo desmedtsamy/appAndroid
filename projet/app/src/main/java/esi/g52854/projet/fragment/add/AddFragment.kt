@@ -117,9 +117,9 @@ class AddFragment : Fragment() {
             AlertDialog.Builder(context)
                     .setTitle("Supprimer la recette")
                     .setMessage("voulez vous vraiment retourner en arriére ?")
-                    .setPositiveButton(R.string.oui, { dialog, which ->
+                    .setPositiveButton(R.string.oui) { dialog, which ->
                         findNavController().navigate(R.id.listFragment)
-                    })
+                    }
                     .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show()

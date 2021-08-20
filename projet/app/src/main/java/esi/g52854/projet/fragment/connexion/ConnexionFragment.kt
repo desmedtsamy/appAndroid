@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task
 import esi.g52854.projet.MainActivity
 import esi.g52854.projet.R
 import esi.g52854.projet.databinding.FragmentConnexionBinding
+import java.io.IOException
 
 class ConnexionFragment : Fragment() {
 
@@ -32,6 +33,10 @@ class ConnexionFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
+        
+        if(!isOnline()){
+            findNavController().navigate(R.id.fragment_offline)
+        }
         //si l'utilisateur est déjà connecter
         if ((activity as MainActivity).user != "0"){
             findNavController().navigate(R.id.listFragment)
@@ -74,5 +79,18 @@ class ConnexionFragment : Fragment() {
         }
     }
 
+    private fun isOnline(): Boolean {
+        val runtime = Runtime.getRuntime()
+        try {
+            val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
+            val exitValue = ipProcess.waitFor()
+            return exitValue == 0
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+        return false
+    }
 
 }

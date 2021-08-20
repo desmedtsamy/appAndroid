@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import esi.g52854.projet.MainActivity
 import esi.g52854.projet.R
 import esi.g52854.projet.Recette
@@ -19,21 +20,27 @@ import kotlinx.android.synthetic.main.fragment_detail.view.*
 class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBindingImpl
+    private lateinit var viewModel: DetailViewModel
+    private lateinit var viewModelFactory: DetailViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModelFactory = DetailViewModelFactory((requireActivity() as MainActivity))
+        viewModel = ViewModelProvider(this, viewModelFactory)
+                .get(DetailViewModel::class.java)
 
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_detail, container, false)
-        getData((requireActivity() as MainActivity).recette!!)
+        getData(viewModel.recette)
         return binding.root
 
     }
     private fun getData(recette: Recette){
         var nb = 0
         setImage(recette)
+
         binding.root.titre.text = recette.titre
         binding.root.nbperso.text = getString(R.string.persoNb,recette.people)
         binding.root.difficulty.text = recette.difficulty

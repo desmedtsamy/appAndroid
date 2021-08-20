@@ -34,8 +34,8 @@ class ListFragment: Fragment() {
             R.layout.fragment_list, container, false
         )
 
-        viewModelFactory = ListViewModelFactory((requireActivity() as MainActivity).user,
-                resources.getStringArray(R.array.day_array),requireActivity() as MainActivity,findNavController())
+        viewModelFactory = ListViewModelFactory(resources.getStringArray(R.array.day_array),
+                requireActivity() as MainActivity,findNavController())
         viewModel = ViewModelProvider(this, viewModelFactory)
                 .get(ListViewModel::class.java)
 

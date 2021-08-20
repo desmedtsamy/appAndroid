@@ -1,6 +1,6 @@
 package esi.g52854.projet.fragment.list
 
-import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.firebase.firestore.DocumentSnapshot
@@ -11,16 +11,16 @@ import com.google.firebase.ktx.Firebase
 import esi.g52854.projet.MainActivity
 import esi.g52854.projet.Recette
 
-class ListViewModel @SuppressLint("StaticFieldLeak") constructor(private val user: String, days: Array<String>,
-                                                                 main: MainActivity, navController : NavController)
+class ListViewModel constructor(days: Array<String>,main: MainActivity, navController : NavController)
     : ViewModel(){
 
     private var recettesArray: MutableList<Recette> = mutableListOf()
     var adapter : ListAdapter = ListAdapter(days,main,navController)
     private var db : FirebaseFirestore = Firebase.firestore
+    private val user : String = main.user
 
     init{
-
+Log.i("test42",user)
         initRecettesArray()
     }
     fun refresh(){

@@ -1,6 +1,7 @@
 package esi.g52854.projet.fragment.connexion
 
 import android.app.Activity
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -17,6 +18,7 @@ class ConnexionViewModel (private var activity : Activity, web_client_id : Strin
 
 
     init{
+
         mAuth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -31,14 +33,14 @@ class ConnexionViewModel (private var activity : Activity, web_client_id : Strin
      fun firebaseGoogleAuth(acct: GoogleSignInAccount?) {
         //check if the account is null
         if (acct != null) {
+
+            Log.i("test42","test")
             val authCredential = GoogleAuthProvider.getCredential(acct.idToken, null)
-            mAuth!!.signInWithCredential(authCredential).addOnCompleteListener(activity) { task ->
-                if (task.isSuccessful) {
+            mAuth!!.signInWithCredential(authCredential)
                     val user = mAuth!!.currentUser
                     val mainActivity: MainActivity = activity as MainActivity
                     mainActivity.user = user!!.uid
-                }
+
             }
         }
     }
-}
